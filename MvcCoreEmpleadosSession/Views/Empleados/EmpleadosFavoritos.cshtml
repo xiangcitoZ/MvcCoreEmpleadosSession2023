@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Empleados Favoritos";
+}
+
+@{
+    List<Empleado> favoritos =
+                memoryCache.Get<List<Empleado>>("FAVORITOS");
+}
+
+<h1>Empleados Favoritos</h1>
+
+@if (favoritos != null)
+{
+    <table class="table table-info">
+        <thead>
+            <tr>
+                <th>
+                    <img src="https://www.shutterstock.com/image-vector/two-female-hands-make-heart-260nw-1584503680.jpg"
+                        style="width: 100px; height: 100px"/>
+                </th>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in favoritos) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdEmpleado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Oficio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Salario)
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>    
+}
+
+

@@ -1,0 +1,44 @@
+﻿@model List<Empleado>
+
+<h1 style="background-color: lightyellow">
+    Empleados Almacenados Session OK
+</h1>
+
+@if (Context.Session.GetObject<List<int>>("IDSEMPLEADOS") == null)
+{
+    <h1 style="color:red">
+        No existen empleados en Session
+    </h1>    
+}
+
+
+@if (Model != null){
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Empleado emp in Model)
+            {
+                <tr>
+                    <td>@emp.Apellido</td>
+                    <td>@emp.Oficio</td>
+                    <td>@emp.Salario</td>
+                    <td>
+                        <a asp-controller="Empleados"
+                            asp-action="EmpleadosAlmacenadosOK"
+                            asp-route-ideliminar="@emp.IdEmpleado"
+                            class="btn btn-danger">
+                            Quitar de Session
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

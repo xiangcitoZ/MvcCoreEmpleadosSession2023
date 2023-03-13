@@ -1,0 +1,28 @@
+﻿<h1>Empleados Almacenados Session</h1>
+
+@{
+    List<Empleado> empleados =
+                Context.Session.GetObject<List<Empleado>>("EMPLEADOS");
+}
+
+<a asp-controller="Empleados"
+    asp-action="SessionEmpleados">
+    Volver
+</a>
+<br/>
+
+@if (empleados == null)
+{
+    <h1 style="color:red">
+        No existen empleados en Session
+    </h1>
+}else{
+    <ul class="list-group">
+        @foreach (Empleado emp in empleados)
+        {
+            <li class="list-group-item">
+                @emp.Apellido, Oficio: @emp.Oficio, Salario: @emp.Salario
+            </li>
+        }
+    </ul>
+}

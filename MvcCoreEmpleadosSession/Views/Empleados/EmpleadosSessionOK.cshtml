@@ -1,0 +1,71 @@
+﻿
+
+@model List<Empleado>
+
+@{
+    List<int> idsEmpleados = 
+        Context.Session.GetObject<List<int>>("IDSEMPLEADOS");
+    List<Empleado> favoritos =
+        memoryCache.Get<List<Empleado>>("FAVORITOS");
+}
+
+@if (favoritos != null)
+{
+    <h1 style="color:green">
+        Empleados favoritos Cache: @favoritos.Count
+    </h1>    
+}
+
+<h1 style="color:blue">
+    Empleados Session OK
+</h1>
+
+<a asp-controller="Empleados"
+    asp-action="EmpleadosAlmacenadosOK">
+    Empleados Almacenados OK
+</a>
+
+@if (idsEmpleados != null)
+{
+    <h1 style="color:fuchsia">
+        Empleados en Session: @idsEmpleados.Count
+    </h1>
+}
+
+<ul class="list-group">
+    @foreach (Empleado emp in Model)
+    {
+        <li class="list-group-item list-group-item-warning">
+            @emp.Apellido
+            <a asp-controller="Empleados"
+                asp-action="EmpleadosSessionOK"
+                asp-route-idfavorito="@emp.IdEmpleado">
+                <img src="https://previews.123rf.com/images/ku2raza/ku2raza1901/ku2raza190100311/115997283-hands-with-heart-icon-two-tone-silhouette-isolated-on-white-background-vector-illustration-for.jpg"
+                    style="width: 40px; height: 40px"/>
+            </a>
+            @if (idsEmpleados == null)
+            {
+                <a asp-controller="Empleados" asp-action="EmpleadosSessionOK"
+                    asp-route-idempleado="@emp.IdEmpleado">
+                    Almacenar Empleado
+                </a>
+            }
+            else
+            {
+                //PREGUNTAR SI EL EMPLEADO QUE ESTAMOS RECORRIENDO ESTA 
+                //DENTRO DE SESSION
+                if (idsEmpleados.Contains(emp.IdEmpleado))
+                {
+                    <img src="~/images/check.png" style="width:40px; height: 40px"/>
+                }
+                else
+                {
+                    <a asp-controller="Empleados" asp-action="EmpleadosSessionOK"
+                        asp-route-idempleado="@emp.IdEmpleado">
+                        Almacenar Empleado OK
+                    </a>                    
+                }
+            }
+        </li>
+    }
+</ul>
